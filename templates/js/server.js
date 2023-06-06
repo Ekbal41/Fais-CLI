@@ -1,11 +1,14 @@
 import Fais from "fais";
-import exampleApi from "./src/routes/api.js";
+import welcomeRoutes from "./src/routes/welcomeRoutes.js";
 const app = new Fais();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
+app.assets("/public");
 //resister all the routes here
-exampleApi(app);
+welcomeRoutes(app);
 //start the server
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} : http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT} : http://localhost:${PORT}`);
 });
+
 export default app;

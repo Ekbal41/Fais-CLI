@@ -1,23 +1,24 @@
+#!/usr/bin/env node
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
 import figlet from "figlet";
 import inquirer from "inquirer";
-import path from "path";
-//import filesystem module
 import fs from "fs-extra";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 let projectName;
 let projectDir;
 let langType;
 
 const createProject = async () => {
-  //get the current working directory
   const cwd = process.cwd();
-  //see if projectDir is exist
   const projectPath = path.join(cwd, projectDir);
-  //if not exist, create one
   if (!fs.existsSync(projectPath)) {
     fs.mkdirSync(projectPath);
-    //copy the templates/js/ to the projectDir
     console.log("Creating project...");
-    const __dirname = path.resolve(path.dirname(""));
+
     let lang;
     if (langType === "Javascript") {
       lang = "js";
@@ -25,11 +26,13 @@ const createProject = async () => {
     if (langType === "Typescript") {
       lang = "ts";
     }
-    fs.copySync(path.join(__dirname, `templates/${lang}`), projectPath);
+
+    const templatePath = path.join(__dirname, "templates", lang);
+    fs.copySync(templatePath, projectPath);
   }
 };
 
-const init = async () => {
+(async () => {
   figlet("Fais Framework", function (err, data) {
     if (err) {
       console.log("Something went wrong...");
@@ -57,7 +60,7 @@ const init = async () => {
     {
       type: "input",
       name: "projectDir",
-      message: "Where should i place the project?",
+      message: "Where should I place the project?",
       default: "./",
     },
   ];
@@ -68,6 +71,4 @@ const init = async () => {
     langType = answers.langType;
     createProject();
   });
-};
-
-init();
+})();

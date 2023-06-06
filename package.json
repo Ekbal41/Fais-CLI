@@ -1,12 +1,20 @@
 {
   "name": "fais-cli",
-  "version": "1.0.0",
+  "version": "1.0.8",
+  "bin": {
+    "fais": "./index.js",
+    "fais-cli": "./index.js"
+  },
   "engines": {
     "node": ">=10.0.0"
   },
   "files": [
     "README.md",
-    "index.js"
+    "index.js",
+    "package.json",
+    "package-lock.json",
+    "LICENSE",
+    "templates"
   ],
   "description": "CLI for Fais Framework",
   "main": "index.js",
@@ -31,9 +39,6 @@
     "url": "https://github.com/Ekbal41/Fais-Cli.git"
   },
   "license": "MIT",
-  "bin": {
-    "fais init": "./index.js"
-  },
   "dependencies": {
     "figlet": "^1.6.0",
     "fs-extra": "^11.1.1",

@@ -4,14 +4,15 @@
   "description": "A project generated through fais-cli",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
   "type": "module",
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "fais": "^1.0.3",
+    "fais": "^1.0.4"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.22"
   }
 }
