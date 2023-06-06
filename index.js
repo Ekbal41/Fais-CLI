@@ -8,7 +8,13 @@ import fs from "fs-extra";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-let projectName;
+let ptypeApi = "An api server";
+let ptypeWeb = "A fullstack website";
+let ptypeBasic = "A basic project";
+let ltypeJs = "Javascript";
+let ltypeTs = "Typescript";
+
+let projectType;
 let projectDir;
 let langType;
 
@@ -17,18 +23,36 @@ const createProject = async () => {
   const projectPath = path.join(cwd, projectDir);
   if (!fs.existsSync(projectPath)) {
     fs.mkdirSync(projectPath);
-    console.log("Creating project...");
+    console.log(`Creating project on ${projectPath} directory...`);
+    let template;
 
-    let lang;
-    if (langType === "Javascript") {
-      lang = "js";
+    if (projectType === ptypeApi && langType === ltypeJs) {
+      template = "api-js";
+    } else if (projectType === ptypeApi && langType === ltypeTs) {
+      template = "api-ts";
+    } else if (projectType === ptypeWeb && langType === ltypeJs) {
+      template = "web-js";
+    } else if (projectType === ptypeWeb && langType === ltypeTs) {
+      template = "web-ts";
+    } else if (projectType === ptypeBasic && langType === ltypeJs) {
+      template = "js";
+    } else if (projectType === ptypeBasic && langType === ltypeTs) {
+      template = "ts";
     }
-    if (langType === "Typescript") {
-      lang = "ts";
+    const templatePath = path.join(__dirname, "templates", template);
+    try {
+      await fs.copy(templatePath, projectPath);
+      console.log(
+        `-Project created successfully!🎉
+        -------------------------------
+        cd ${projectDir}
+        npm install
+        npm run dev
+        `
+      );
+    } catch (err) {
+      console.error(err);
     }
-
-    const templatePath = path.join(__dirname, "templates", lang);
-    fs.copySync(templatePath, projectPath);
   }
 };
 
@@ -47,15 +71,15 @@ const createProject = async () => {
       type: "list",
       name: "projectType",
       message: "What do you want to build today?",
-      choices: ["An api server", "A fullstack website"],
-      default: "A fullstack website",
+      choices: [ptypeBasic, ptypeApi, ptypeWeb],
+      default: ptypeBasic,
     },
     {
       type: "list",
       name: "langType",
       message: "Would you like to use Javascript or Typescript?",
-      choices: ["Javascript", "Typescript"],
-      default: "Javascript",
+      choices: [ltypeJs, ltypeTs],
+      default: ltypeJs,
     },
     {
       type: "input",
@@ -66,7 +90,7 @@ const createProject = async () => {
   ];
 
   inquirer.prompt(questions).then((answers) => {
-    projectName = answers.projectType;
+    projectType = answers.projectType;
     projectDir = answers.projectDir;
     langType = answers.langType;
     createProject();
