@@ -1,5 +1,5 @@
 export const welcomePage = (req, res) => {
-  res.render("./views/welcome.html", {
+  res.render("./src/views/welcome.html", {
     title: "FaisJS",
     message: "Welcome to Fais Framework",
   });
